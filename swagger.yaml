@@ -1,0 +1,367 @@
+openapi: 3.0.0
+
+info:
+  title: API Title
+  description: OpenAPI specification
+  version: 1.0.0
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          maxLength: 26
+          example: John
+
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes
+
+  responses:
+    GetTokens:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: ey2ace6et98s1ncjasd
+                  refreshToken:
+                    type: string
+                    example: def50"200"75819e4748adef0566c3b41437f2b7e3
+    success:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: success
+    refreshTokenResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  authentication:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJkaHJ1dkBnbWFpbC5jb20iLCJ0b2tlbiI6IjEyODQ4NjY5YTJmN2FlNTczNTNhY2U3ZjgwODJhYzI3MDg1ZWYwYzU2NzMyYjhjMDNkOGFhY2ZkY2UzMDIzNzUiLCJpYXQiOjE2NDk4MzA5ODEsImV4cCI6MTY4MTM4ODU4MX0.BwhIAYdO0-N84q3UwxsdYtVBUgsJBfAfGnSyBXcNC9c
+                      refreshToken:
+                        type: string
+                        example: 496005929c15685ca553e1d728bea49dd7472abb6e06d22bb8096f220240f84b
+                      expireAt:
+                        type: number
+                        example: 1683097795
+
+    GetLoginResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  _id:
+                    type: integer
+                    example: 643d4d03ae23825006d11937
+                  firstName:
+                    type: string
+                    example: John
+                  lastName:
+                    type: string
+                    example: wick
+                  profileImage:
+                    type: string
+                    example: http://example.com/static/file_697929e031dfb468c04126e26845f03c1610166680033.jpeg
+                  type:
+                    type: number
+                    example: 2
+                  email:
+                    type: string
+                    example: john@gmail.com
+                  bio:
+                    type: string
+                    example: My best friend has a fur and a tail. Dogs are not our whole life, but they make our lives whole 🐶🙂
+                  address:
+                    type: string
+                    example: NY, Kellogg Rd New Hartford, 24
+                  latitude:
+                    type: string
+                    example: "21.1702"
+                  longitude:
+                    type: string
+                    example: "21.1702"
+                  auth:
+                    type: object
+                    properties:
+                      tokenType:
+                        type: string
+                        example: Bearer
+                      accessToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1LCJwaG9uZV9udW1iZXIiOiIrOTEgNzk5MDA1MzE3MCIsImZpcnN0X25hbWUiOiJ0ZXN0c2RzZHNkc2RzZHNkcyIsI
+                      refreshToken:
+                        type: string
+                        example: DGptc0miW9AXKCDl6H7RMMHlDcruUbPrwOowslSHiVOyYYJeFhRW1F2XKIrrfUCRIoG1lRMUfEQKSxX3TApl1Aw6641YkAGJhi6yQgr06PrZZuPFddYBvr
+                      expiresIn:
+                        type: integer
+                        example: 31536000
+    User:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+    UnauthorizedError:
+      description: |
+        - Invalid credentials
+        - Expired access or refresh token
+        - Revoked access or refresh token
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Unauthorized
+    NoContent:
+      description: |
+        - Empty body content
+      content:
+        application/json:
+          schema:
+            type: object
+    UnprocessableEntity:
+      description: Validation errors
+      content:
+        application/json:
+          schema:
+            type: object
+    Conflict:
+      description: Account already registered with given email
+      content:
+        application/json:
+          schema:
+            type: object
+    PreconditionFailedException:
+      description: Account does not exist
+      content:
+        application/json:
+          schema:
+            type: object
+
+    GetForgotPasswordResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: true
+              message:
+                type: string
+                example: Please check your email inbox. We sent you an email with reset password link.
+
+paths:
+  /auth/login:
+    post:
+      summary: Login Service
+      description: |
+        | role        | Meaning           |
+        | ------------- |:-------------:|
+        |  1  | ***User***  |
+        |  2  |  ***Recruiter***   |
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: number
+                  example: 1
+                email:
+                  type: number
+                  example: "hiren@mailinator.com"
+
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"
+
+  /auth/signup:
+    post:
+      summary: Signup Service
+      description: |
+        | role        | Meaning           |
+        | ------------- |:-------------:|
+        |  1  | ***User***  |
+        |  2  |  ***Recruiter***   |
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: number
+                  example: 1
+                fullName:
+                  type: string
+                  example: "hiren"
+                email:
+                  type: string
+                  example: "hiren@mailinator.com"
+                number:
+                  type: number
+                  example: 450469809
+                location:
+                  type: string
+                  example: "adajan,surat,gujarat."
+                university:
+                  type: string
+                  example: "Cambridge"
+                major:
+                  type: string
+                  example: "major"
+                gpa:
+                  type: string
+                  example: "8.7"
+                workStatus:
+                  type: string
+                  format: enum
+                  enum: [CPT, OPT, H1]
+                  example: CPT
+                resume:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"
+
+  # /auth/logout:
+  #   post:
+  #     description: Logout from the application
+  #     summary: Logout from the application
+  #     tags:
+  #       - Auth
+  #     security:
+  #       - bearerAuth: []
+  #     responses:
+  #       "200":
+  #         $ref: "#/components/responses/success"
+  #       "401":
+  #         $ref: "#/components/responses/UnauthorizedError"
+  #       "422":
+  #         $ref: "#/components/responses/UnprocessableEntity"
+
+  /user:
+    get:
+      summary: Get profile details
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/User"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+    put:
+      summary: Update profile
+      description: Update profile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                  example: "hiren"
+                email:
+                  type: string
+                  example: "hiren@mailinator.com"
+                number:
+                  type: number
+                  example: 450469809
+                location:
+                  type: string
+                  example: "adajan,surat,gujarat."
+                university:
+                  type: string
+                  example: "Cambridge"
+                major:
+                  type: string
+                  example: "major"
+                gpa:
+                  type: string
+                  example: "8.7"
+                workStatus:
+                  type: string
+                  format: enum
+                  enum: [CPT, OPT, H1]
+                  example: CPT
+                resume:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"

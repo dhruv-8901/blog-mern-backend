@@ -2,11 +2,10 @@
   "name": "hiremate-backend",
   "version": "1.0.0",
   "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
-  "main": "src/app.js",
+  "main": "dist/app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/app.js",
-    "start:dev": "pm2 start --interpreter babel-node src/app.js -n hiremate-5004",
-    "dev:reload": "pm2 reload hiremate-5004"
+    "build": "babel src -d dist",
+    "start": "npm run build && nodemon --exec babel-node dist/app.js"
   },
   "repository": {
     "type": "git",

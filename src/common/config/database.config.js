@@ -7,7 +7,7 @@ exports.mongoConnection = () => {
     mongoose.set("strictQuery", false);
     // mongoose.set("debug", true); //for query logging
     mongoose
-      .connect(process.env.DB_MONGO_URL, {
+      .connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })

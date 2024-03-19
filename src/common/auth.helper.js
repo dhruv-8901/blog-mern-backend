@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import moment from "moment";
 import jwt from "jsonwebtoken";
 import { JWT, BCRYPT, ROLE } from "./constants/constant";

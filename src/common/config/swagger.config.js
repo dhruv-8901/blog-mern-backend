@@ -5,7 +5,9 @@ import { baseUrl } from "./constant.config";
 const YAML = require("yamljs");
 
 const router = express.Router();
+console.log("in");
 const swaggerDocument = YAML.load("swagger.yaml");
+console.log("in2", swaggerDocument);
 
 if (process.env.ENV !== "production") {
   router.use(

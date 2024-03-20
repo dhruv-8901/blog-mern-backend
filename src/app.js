@@ -2,8 +2,8 @@ import express from "express";
 import path from "path";
 import { mongoConnection } from "./common/config/database.config";
 import handleError from "./common/middlewares/error-handler.middleware";
-import fs from "fs";
 import routes from "../routes/index";
+import swaggerSetup from "./common/config/swagger.config";
 import passport from "passport";
 import "./common/config/jwt-strategy";
 import cors from "cors";
@@ -26,6 +26,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 const corsOptions = { origin: process.env.ALLOW_ORIGIN };
 app.use(cors(corsOptions));
 
+app.use(swaggerSetup);
 app.use("/", routes);
 app.use(handleError);
 

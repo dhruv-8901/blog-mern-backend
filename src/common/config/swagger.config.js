@@ -6,11 +6,9 @@ const path = require("path");
 const YAML = require("yamljs");
 
 const router = express.Router();
-console.log("in");
 const swaggerDocument = YAML.load(
   path.join(__dirname, "../../../swagger.yaml")
 );
-console.log("in2", swaggerDocument);
 
 router.use(
   "/api/documentation",

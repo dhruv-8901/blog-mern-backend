@@ -26,7 +26,6 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 const corsOptions = { origin: process.env.ALLOW_ORIGIN };
 app.use(cors(corsOptions));
 
-app.use(swaggerSetup);
 app.use("/", routes);
 app.use(handleError);
 

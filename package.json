@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "src/app.js",
-    "start": "nodemon --exec babel-node src/app.js"
+    "start": "babel-node src/app.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
     "url": "https://github.com/iroid-solutions-repos/mydocs-backend/issues"
   },
   "homepage": "https://github.com/iroid-solutions-repos/mydocs-backend#readme",
+  "type": "commonjs",
   "dependencies": {
     "@babel/core": "^7.13.10",
     "bcryptjs": "^2.4.3",

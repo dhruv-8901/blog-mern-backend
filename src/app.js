@@ -34,6 +34,10 @@ app.get("/test", (req, res) => {
   return res.send({ message: "test successfully" });
 });
 
+app.use((req, res, next) => {
+  return res.render("404");
+});
+
 var http = require("http").Server(app);
 
 http.listen(process.env.PORT || 6001, () => {

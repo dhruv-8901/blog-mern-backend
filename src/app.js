@@ -30,6 +30,10 @@ app.use(swaggerSetup);
 app.use("/", routes);
 app.use(handleError);
 
+app.get("/test", (req, res) => {
+  return res.send({ message: "test successfully" });
+});
+
 var http = require("http").Server(app);
 
 http.listen(process.env.PORT || 6001, () => {
